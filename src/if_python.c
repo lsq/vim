@@ -179,6 +179,7 @@
 # define PyInt_FromLong dll_PyInt_FromLong
 # define PyLong_AsLong dll_PyLong_AsLong
 # define PyLong_FromLong dll_PyLong_FromLong
+# define PyLong_FromLongLong dll_PyLong_FromLongLong
 # define PyBool_Type (*dll_PyBool_Type)
 # define PyInt_Type (*dll_PyInt_Type)
 # define PyLong_Type (*dll_PyLong_Type)
@@ -332,6 +333,7 @@ static long(*dll_PyInt_AsLong)(PyObject *);
 static PyObject*(*dll_PyInt_FromLong)(long);
 static long(*dll_PyLong_AsLong)(PyObject *);
 static PyObject*(*dll_PyLong_FromLong)(long);
+static PyObject*(*dll_PyLong_FromLongLong)(long long);
 static PyTypeObject* dll_PyBool_Type;
 static PyTypeObject* dll_PyInt_Type;
 static PyTypeObject* dll_PyLong_Type;
@@ -522,6 +524,7 @@ static struct
     {"PyInt_FromLong", (PYTHON_PROC*)&dll_PyInt_FromLong},
     {"PyLong_AsLong", (PYTHON_PROC*)&dll_PyLong_AsLong},
     {"PyLong_FromLong", (PYTHON_PROC*)&dll_PyLong_FromLong},
+    {"PyLong_FromLongLong", (PYTHON_PROC*)&dll_PyLong_FromLongLong},
     {"PyBool_Type", (PYTHON_PROC*)&dll_PyBool_Type},
     {"PyInt_Type", (PYTHON_PROC*)&dll_PyInt_Type},
     {"PyLong_Type", (PYTHON_PROC*)&dll_PyLong_Type},
@@ -666,7 +669,7 @@ python_runtime_link_init(char *libname, int verbose)
     PYTHON_PROC *ucs_as_encoded_string =
 				   (PYTHON_PROC*)&py_PyUnicode_AsEncodedString;
 
-# if !(defined(PY_NO_RTLD_GLOBAL) && defined(PY3_NO_RTLD_GLOBAL)) && defined(UNIX) && defined(FEAT_PYTHON3)
+# if !(defined(PY_NO_RTLD_GLOBAL) && defined(PY3_NO_RTLD_GLOBAL)) && defined(UNIX) && !defined(__CYGWIN__) && defined(FEAT_PYTHON3)
     // Can't have Python and Python3 loaded at the same time.
     // It causes a crash, because RTLD_GLOBAL is needed for
     // standard C extension libraries of one or both python versions.

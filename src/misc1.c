@@ -1998,6 +1998,7 @@ vim_getenv(char_u *name, int *mustfree)
 	    }
 	}
     }
+else { if (vimruntime && *default_vimruntime_dir != NUL) { char_u *phf; int p_len; p_len = STRLEN(p); phf = alloc(p_len + 5); if (phf != NULL) { STRNCPY(phf, p, p_len); STRCPY(phf + p_len, (char_u *)"/doc"); } if (*phf != NUL && !mch_isdir(phf) && mch_isdir(default_vimruntime_dir)) { p = default_vimruntime_dir; *mustfree = FALSE; } } }
 #endif
 
     /*

@@ -791,6 +791,8 @@ if test "$enable_luainterp" = "yes" -o "$enable_luainterp" = "dynamic"; then
       fi
       if test -f "${vi_cv_path_lua_pfx}/bin/cyglua-${vi_cv_version_lua}.dll"; then
 	vi_cv_dll_name_lua="cyglua-${vi_cv_version_lua}.dll"
+      elif test -f "${vi_cv_path_lua_pfx}/bin/msys-lua-${vi_cv_version_lua}.dll"; then
+	vi_cv_dll_name_lua="msys-lua-${vi_cv_version_lua}.dll"
       else
 	if test "x$MACOS_X" = "xyes"; then
 	  ext="dylib"

@@ -3166,7 +3166,7 @@ msg_add_fileformat(int eol_type)
 	STRCAT(IObuff, shortmess(SHM_TEXT) ? _("[mac]") : _("[mac format]"));
 	return TRUE;
     }
-#ifdef USE_CRNL
+#if defined(__MSYS__) || defined(USE_CRNL) || defined(USE_CR)
     if (eol_type == EOL_UNIX)
     {
 	STRCAT(IObuff, shortmess(SHM_TEXT) ? _("[unix]") : _("[unix format]"));

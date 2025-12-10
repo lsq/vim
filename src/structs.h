@@ -4977,7 +4977,7 @@ typedef struct {
     int		source_from_buf;// TRUE if sourcing from current buffer
     int		buf_lnum;	// line number in the current buffer
     garray_T	buflines;	// lines in the current buffer
-#ifdef USE_CRNL
+#if defined(__MSYS__) || defined(USE_CRNL)
     int		fileformat;	// EOL_UNKNOWN, EOL_UNIX or EOL_DOS
     int		error;		// TRUE if LF found after CR-LF
 #endif

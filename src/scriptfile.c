@@ -1733,7 +1733,7 @@ do_source_ext(
     else if (is_vimrc == DOSO_GVIMRC)
 	vimrc_found(fname_exp, (char_u *)"MYGVIMRC");
 
-#ifdef USE_CRNL
+#if defined(__MSYS__) || defined(USE_CRNL)
     // If no automatic file format: Set default to CR-NL.
     if (*p_ffs == NUL)
 	cookie.fileformat = EOL_DOS;
@@ -2333,7 +2333,7 @@ get_one_sourceline(source_cookie_T *sp)
     int			len;
     int			c;
     char_u		*buf;
-#ifdef USE_CRNL
+#if defined(__MSYS__) || defined(USE_CRNL)
     int			has_cr;		// CR-LF found
 #endif
     int			have_read = FALSE;
@@ -2368,7 +2368,7 @@ get_one_sourceline(source_cookie_T *sp)
 		break;
 	    len = ga.ga_len + (int)STRLEN(buf + ga.ga_len);
 	}
-#ifdef USE_CRNL
+#if defined(__MSYS__) || defined(USE_CRNL)
 	// Ignore a trailing CTRL-Z, when in Dos mode.	Only recognize the
 	// CTRL-Z by its own, or after a NL.
 	if (	   (len == 1 || (len >= 2 && buf[len - 2] == '\n'))
@@ -2389,7 +2389,7 @@ get_one_sourceline(source_cookie_T *sp)
 
 	if (len >= 1 && buf[len - 1] == '\n')	// remove trailing NL
 	{
-#ifdef USE_CRNL
+#if defined(__MSYS__) || defined(USE_CRNL)
 	    has_cr = (len >= 2 && buf[len - 2] == '\r');
 	    if (sp->fileformat == EOL_UNKNOWN)
 	    {

@@ -940,7 +940,7 @@ qf_get_nextline(qfstate_T *state)
     if (state->linelen > 0 && state->linebuf[state->linelen - 1] == '\n')
     {
 	state->linebuf[state->linelen - 1] = NUL;
-#ifdef USE_CRNL
+#if defined(__MSYS__) || defined(USE_CRNL)
 	if (state->linelen > 1 && state->linebuf[state->linelen - 2] == '\r')
 	    state->linebuf[state->linelen - 2] = NUL;
 #endif

@@ -1571,7 +1571,7 @@ mch_init(void)
 #ifdef MACOS_CONVERT
     mac_conv_init();
 #endif
-#ifdef FEAT_CYGWIN_WIN32_CLIPBOARD
+#if defined(FEAT_CYGWIN_WIN32_CLIPBOARD) && defined(FEAT_NORMAL)
     win_clip_init();
 #endif
 }

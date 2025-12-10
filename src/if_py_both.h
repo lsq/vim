@@ -1039,7 +1039,9 @@ VimToPython(typval_T *our_tv, int depth, PyObject *lookup_dict)
 	char buf[NUMBUFLEN];
 
 	// For backwards compatibility numbers are stored as strings.
-	sprintf(buf, "%ld", (long)our_tv->vval.v_number);
+	sprintf(buf, "%lld", (long long)our_tv->vval.v_number);
+    fprintf(stderr, "DEBUG: VimEval/VimToPython %s\n", buf);
+    fflush(stderr);
 	ret = PyString_FromString((char *)buf);
     }
     else if (our_tv->v_type == VAR_FLOAT)
@@ -6426,6 +6428,8 @@ run_cmd(const char *cmd, dict_T* locals UNUSED, void *arg UNUSED
 	)
 {
     PyObject	*run_ret;
+    fprintf(stderr, ">>> Running Python cmd: %s\n", (char *)cmd);
+    fflush(stderr);
     run_ret = PyRun_String((char *)cmd, Py_file_input, globals, globals);
     if (run_ret != NULL)
     {
@@ -7150,6 +7154,22 @@ _ConvertFromPyObject(PyObject *obj, typval_T *tv, PyObject *lookup_dict)
 }
 
     static PyObject *
+_ConvertToPyLong(varnumber_T n)
+{
+#if defined (WIN32) || defined (_WIN64)
+    /* On LLP64 systems (e.g., Windows), long=4, varnumber_T=8 */
+    fprintf(stderr, "DEBUG: Converting %lld via PyLong_FromLongLong\n", (long long)n);
+    fflush(stderr);
+    return PyLong_FromLongLong((long long)n);
+#else
+    /* LP64 (Unix) or same size: safe to cast to long */
+    fprintf(stderr, "DEBUG: Converting %ld via PyLong_FromLong\n", (long)n);
+    fflush(stderr);
+    return PyLong_FromLong((long)n);
+#endif
+}
+
+    static PyObject *
 ConvertToPyObject(typval_T *tv)
 {
     typval_T *argv;
@@ -7165,7 +7185,7 @@ ConvertToPyObject(typval_T *tv)
 	    return PyBytes_FromString(tv->vval.v_string == NULL
 					    ? "" : (char *)tv->vval.v_string);
 	case VAR_NUMBER:
-	    return PyLong_FromLong((long) tv->vval.v_number);
+	    return _ConvertToPyLong(tv->vval.v_number);
 	case VAR_FLOAT:
 	    return PyFloat_FromDouble((double) tv->vval.v_float);
 	case VAR_LIST:

@@ -272,8 +272,13 @@ DYNAMIC_PERL=yes
 #PERLLIB=/home/ron/ActivePerl/lib
 # on NT, it's here:
 PERLEXE=$(PERL)/bin/perl
-PERLLIB=$(PERL)/lib
+PERLLIB=$(PERL)/lib/perl5/core_perl
 PERLLIBS=$(PERLLIB)/Core
+# 打印这些变量的值
+$(info PERL = [$(PERL)])
+$(info PERLEXE = [$(PERLEXE)])
+$(info PERLLIB = [$(PERLLIB)])
+$(info PERLLIBS = [$(PERLLIBS)])
  ifeq ($(UNDER_CYGWIN),yes)
 PERLTYPEMAP:=$(shell cygpath -m $(PERLLIB)/ExtUtils/typemap)
 XSUBPPTRY:=$(shell cygpath -m $(PERLLIB)/ExtUtils/xsubpp)
@@ -281,12 +286,16 @@ XSUBPPTRY:=$(shell cygpath -m $(PERLLIB)/ExtUtils/xsubpp)
 PERLTYPEMAP=$(PERLLIB)/ExtUtils/typemap
 XSUBPPTRY=$(PERLLIB)/ExtUtils/xsubpp
  endif
+# 打印转换后的路径
+$(info PERLTYPEMAP = [$(PERLTYPEMAP)])
+$(info XSUBPPTRY = [$(XSUBPPTRY)])
 XSUBPP_EXISTS=$(shell $(PERLEXE) -e "print 1 unless -e '$(XSUBPPTRY)'")
  ifeq "$(XSUBPP_EXISTS)" ""
 XSUBPP=$(PERLEXE) $(XSUBPPTRY)
  else
 XSUBPP=xsubpp
  endif
+$(info XSUBPP = [$(XSUBPP)])
 endif
 
 #	Lua interface:

@@ -334,6 +334,11 @@ main
      * Note that we may use mch_exit() before mch_init()!
      */
     mch_init();
+{char_u *p; if ((p = mch_getenv((char_u *)"SHELL")) != NULL && *p != NUL) {p_ssl = TRUE;}
+#if defined(BACKSLASH_IN_FILENAME) || defined(PROTO)
+did_set_shellslash(NULL);
+#endif
+}
     TIME_MSG("shell init");
 
 #ifdef USE_XSMP

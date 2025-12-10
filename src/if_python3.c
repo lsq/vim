@@ -108,6 +108,7 @@
 # define PyInt_Check(obj) PyLong_Check(obj)
 #endif
 #define PyInt_FromLong(i) PyLong_FromLong(i)
+#define PyInt_FromLongLong(i) PyLong_FromLongLong(i)
 #define PyInt_AsLong(obj) PyLong_AsLong(obj)
 #define Py_ssize_t_fmt "n"
 #define Py_bytes_fmt "y"
@@ -178,6 +179,7 @@ static HINSTANCE hinstPy3 = 0; // Instance of python.dll
 # define PyGILState_Release py3_PyGILState_Release
 # define PyLong_AsLong py3_PyLong_AsLong
 # define PyLong_FromLong py3_PyLong_FromLong
+# define PyLong_FromLongLong py3_PyLong_FromLongLong
 # define PyList_GetItem py3_PyList_GetItem
 # define PyList_Append py3_PyList_Append
 # define PyList_Insert py3_PyList_Insert
@@ -427,6 +429,7 @@ static int (*py3_PyList_SetItem)(PyObject *, Py_ssize_t, PyObject *);
 static PyObject* (*py3_PyDict_GetItemString)(PyObject *, const char *);
 static int (*py3_PyDict_Next)(PyObject *, Py_ssize_t *, PyObject **, PyObject **);
 static PyObject* (*py3_PyLong_FromLong)(long);
+static PyObject* (*py3_PyLong_FromLongLong)(long long);
 static PyObject* (*py3_PyDict_New)(void);
 # if (defined(USE_LIMITED_API) && Py_LIMITED_API >= 0x03080000) || \
        (!defined(USE_LIMITED_API) && PY_VERSION_HEX >= 0x03080000)
@@ -648,6 +651,7 @@ static struct
     {"PyObject_GetItem", (PYTHON_PROC*)&py3_PyObject_GetItem},
     {"PyObject_IsTrue", (PYTHON_PROC*)&py3_PyObject_IsTrue},
     {"PyLong_FromLong", (PYTHON_PROC*)&py3_PyLong_FromLong},
+    {"PyLong_FromLongLong", (PYTHON_PROC*)&py3_PyLong_FromLongLong},
     {"PyDict_New", (PYTHON_PROC*)&py3_PyDict_New},
 # if PY_VERSION_HEX >= 0x03040000
     {"PyType_GetFlags", (PYTHON_PROC*)&py3_PyType_GetFlags},
@@ -933,7 +937,7 @@ py3_runtime_link_init(char *libname, int verbose)
     PYTHON_PROC *ucs_as_encoded_string =
 				 (PYTHON_PROC *)&py3_PyUnicode_AsEncodedString;
 
-# if !(defined(PY_NO_RTLD_GLOBAL) && defined(PY3_NO_RTLD_GLOBAL)) && defined(UNIX) && defined(FEAT_PYTHON)
+# if !(defined(PY_NO_RTLD_GLOBAL) && defined(PY3_NO_RTLD_GLOBAL)) && defined(UNIX) && !defined(__CYGWIN__) && defined(FEAT_PYTHON)
     // Can't have Python and Python3 loaded at the same time.
     // It causes a crash, because RTLD_GLOBAL is needed for
     // standard C extension libraries of one or both python versions.
@@ -1411,7 +1415,7 @@ Python3_Init(void)
 	// the current directory in sys.path.
 	// Only after vim has been imported, the element does exist in
 	// sys.path.
-	PyRun_SimpleString("import vim; import sys; sys.path = list(filter(lambda x: not x.endswith('must>not&exist'), sys.path))");
+	PyRun_SimpleString("import vim; import os,sys;getattr(os,'add_dll_directory',lambda x:None)(os.path.join(sys.prefix,'bin')); sys.path = list(filter(lambda x: not x.endswith('must>not&exist'), sys.path))");
 
 	// Without the call to PyEval_SaveThread, thread specific state (such
 	// as the system trace hook), will be lost between invocations of

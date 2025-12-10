@@ -901,7 +901,7 @@
  *			in an xterm like in the GUI.
  */
 
-#ifdef FEAT_CYGWIN_WIN32_CLIPBOARD
+#if defined(FEAT_CYGWIN_WIN32_CLIPBOARD) && defined(FEAT_NORMAL)
 # define FEAT_CLIPBOARD
 #endif
 
