@@ -9,6 +9,7 @@
 
 #define EXTERN
 #include "vim.h"
+/* #include "backtrace_util.h" */
 
 #ifdef __CYGWIN__
 # include <cygwin/version.h>
@@ -19,6 +20,8 @@
 
 #if defined(MSWIN) && (!defined(FEAT_GUI_MSWIN) || defined(VIMDLL))
 # include "iscygpty.h"
+#include <stdio.h>
+# include <process.h>
 #endif
 
 // Values for edit_type.
@@ -97,6 +100,10 @@ main
 #  endif
 (int argc, char **argv)
 {
+    fprintf(stderr, "PID: %ld\n", (long)getpid());
+    fprintf(stderr, "Press Enter to continue...\n");
+    /* dump_backtrace(); */
+    getchar();
 #  if defined(STARTUPTIME) || defined(CLEAN_RUNTIMEPATH)
     int		i;
 #  endif

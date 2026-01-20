@@ -1,0 +1,175 @@
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: term_cursor_mode: before: 16
+ T_CSI=\e[6 q
+DEBUG: term_cursor_mode:  16
+ T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  2
+DEBUG: mch_set_cursor_shape: thickness  25
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  2
+DEBUG: mch_set_cursor_shape: thickness  25
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  2
+DEBUG: mch_set_cursor_shape: thickness  25
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  2
+DEBUG: mch_set_cursor_shape: thickness  25
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: term_cursor_mode: before: 1
+ T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: term_cursor_mode: before: 8
+ T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  4
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  4
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  5
+DEBUG: mch_set_cursor_shape: thickness  25
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  4
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  5
+DEBUG: mch_set_cursor_shape: thickness  25
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  4
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  4
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: term_cursor_mode: before: 1
+ T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q
+DEBUG: mch_update_cursor:  0
+DEBUG: mch_set_cursor_shape: thickness  99
+DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=\e[6 q

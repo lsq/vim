@@ -1,5 +1,6 @@
 # Unixen: object and executable files.
 *.o
+src/.cache/
 src/vim
 src/xxd/xxd
 src/auto/if_perl.c
