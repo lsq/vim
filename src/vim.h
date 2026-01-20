@@ -19,6 +19,7 @@
 
 #if defined(MSWIN)
 # include <io.h>
+void dump_stack_to_stderr(void);
 #endif
 
 // ============ the header file puzzle: order matters =========

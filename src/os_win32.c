@@ -2067,8 +2067,12 @@ test_mswin_event(char_u *event, dict_T *args)
     static void
 mch_set_cursor_shape(int thickness)
 {
+    fprintf(stderr, "DEBUG: mch_set_cursor_shape: thickness  %d\n", thickness);
+    fflush(stderr);
     if (vtp_working)
     {
+    fprintf(stderr, "DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=%s\n", T_CSI);
+    fflush(stderr);
 	if (*T_CSI == NUL)
 	{
 	    // If 't_SI' is not set, use the default cursor styles.
@@ -2105,6 +2109,8 @@ mch_update_cursor(void)
      * How the cursor is drawn depends on the current mode.
      */
     idx = get_shape_idx(FALSE);
+    fprintf(stderr, "DEBUG: mch_update_cursor:  %d\n", idx);
+    fflush(stderr);
 
     if (shape_table[idx].shape == SHAPE_BLOCK)
 	thickness = 99;	// 100 doesn't work on W95
@@ -8669,6 +8675,8 @@ vtp_printf(
     va_start(list, format);
     len = vim_vsnprintf((char *)buf, 100, (char *)format, list);
     va_end(list);
+    /* fprintf(stderr, "DEBUG: vtp_printf: buf:%s\n", buf); */
+    /* fflush(stderr); */
     WriteConsoleA(g_hConOut, buf, (DWORD)len, &result, NULL);
     return (int)result;
 }
