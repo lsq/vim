@@ -2469,6 +2469,8 @@ get_cmd_output(
     if (buffer != NULL)
 	i = (int)fread((char *)buffer, (size_t)1, (size_t)len, fd);
     fclose(fd);
+    fprintf(stderr, "tempname: %s\n", tempname);
+    fprintf(stderr, "ret_len: %d - len: %d - i: %d\n", ret_len != NULL ? *ret_len: 0, len, i);
     mch_remove(tempname);
     if (buffer == NULL)
 	goto done;
@@ -2483,9 +2485,13 @@ get_cmd_output(
     else if (ret_len == NULL)
     {
 	// Change NUL into SOH, otherwise the string is truncated.
+	fprintf(stderr, "Change NUL into SOH\n");
 	for (i = 0; i < len; ++i)
 	    if (buffer[i] == NUL)
+	    {
+		fprintf(stderr, "i: %d - (i-1): %c\n", i, buffer[i-1]);
 		buffer[i] = 1;
+	    }
 
 	buffer[len] = NUL;	// make sure the buffer is terminated
     }
@@ -2494,6 +2500,7 @@ get_cmd_output(
 
 done:
     vim_free(tempname);
+    fprintf(stderr, "system result: %s\n", buffer);
     return buffer;
 }
 
@@ -2613,6 +2620,7 @@ get_cmd_output_as_rettv(
 	char_u		*end;
 	int		i;
 
+	fprintf(stderr, "retlist-true: %d\n", retlist);
 	res = get_cmd_output(tv_get_string(&argvars[0]), infile, flags, &len);
 	if (res == NULL)
 	    goto errret;
@@ -2653,6 +2661,7 @@ get_cmd_output_as_rettv(
     }
     else
     {
+	fprintf(stderr, "retlist-false: %d\n", retlist);
 	res = get_cmd_output(tv_get_string(&argvars[0]), infile, flags, NULL);
 #  ifdef USE_CRNL
 	// translate <CR><NL> into <NL>
@@ -2670,6 +2679,7 @@ get_cmd_output_as_rettv(
 	    *d = NUL;
 	}
 #  endif
+	fprintf(stderr, "res-false: %s\n", res);
 	rettv->vval.v_string = res;
 	res = NULL;
     }

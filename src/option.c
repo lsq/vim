@@ -599,6 +599,8 @@ set_init_default_encoding(void)
 #if defined(MSWIN) && (!defined(FEAT_GUI) || defined(VIMDLL))
 	// Win32 console: When GetACP() returns a different value from
 	// GetConsoleCP() set 'termencoding'.
+        fprintf(stderr, "DEBUG: set_init_default_encoding -> GetACP() / GetConsoleCP: %d / %d\n", GetACP(), GetConsoleCP());
+        fflush(stderr);
 	if (
 # ifdef VIMDLL
 		(!gui.in_use && !gui.starting) &&

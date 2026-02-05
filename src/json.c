@@ -1193,6 +1193,7 @@ json_decode_all(js_read_T *reader, typval_T *res, int options)
     int ret;
 
     // We find the end once, to avoid calling strlen() many times.
+    fprintf(stderr, "json.c-> reader -> js_buf: %s\n", reader->js_buf);
     reader->js_end = reader->js_buf + STRLEN(reader->js_buf);
     json_skip_white(reader);
     ret = json_decode_item(reader, res, options);

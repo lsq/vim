@@ -7658,14 +7658,18 @@ term_and_job_init(
 
     has_winpty = dyn_winpty_init(FALSE) != FAIL ? TRUE : FALSE;
     has_conpty = dyn_conpty_init(FALSE) != FAIL ? TRUE : FALSE;
+    fprintf(stderr,"term_and_job_init->has_conpty: %d/has_winpty: %d\n", has_conpty, has_winpty);
 
     if (!has_winpty && !has_conpty)
 	// If neither is available give the errors for winpty, since when
 	// conpty is not available it can't be installed either.
 	return dyn_winpty_init(TRUE);
 
-    if (opt->jo_tty_type != NUL)
+    fprintf(stderr,"term_and_job_init->tty_type: %d\n", tty_type);
+    if (opt->jo_tty_type != NUL) {
+	fprintf(stderr,"term_and_job_init->opt->jo_tty_type: %d\n", opt->jo_tty_type);
 	tty_type = opt->jo_tty_type;
+    }
 
     if (tty_type == NUL)
     {
@@ -7688,6 +7692,8 @@ term_and_job_init(
 	    return dyn_conpty_init(TRUE);
     }
 
+    // https://deepwiki.com/search/terminal-windowswinptyconpty_f621b241-364d-40af-ba89-3ebbd29d0740?mode=deep
+    fprintf(stderr,"DEBUG: term_and_job_init->use_conpty: %d/use_winpty: %d\n", use_conpty, use_winpty);
     if (use_conpty)
 	return conpty_term_and_job_init(term, argvar, argv, opt, orig_opt);
 

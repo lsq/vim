@@ -2067,12 +2067,12 @@ test_mswin_event(char_u *event, dict_T *args)
     static void
 mch_set_cursor_shape(int thickness)
 {
-    fprintf(stderr, "DEBUG: mch_set_cursor_shape: thickness  %d\n", thickness);
-    fflush(stderr);
+    /* fprintf(stderr, "DEBUG: mch_set_cursor_shape: thickness  %d\n", thickness); */
+    /* fflush(stderr); */
     if (vtp_working)
     {
-    fprintf(stderr, "DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=%s\n", T_CSI);
-    fflush(stderr);
+    /* fprintf(stderr, "DEBUG: mch_set_cursor_shape -> vtp_working: T_CSI=%s\n", T_CSI); */
+    /* fflush(stderr); */
 	if (*T_CSI == NUL)
 	{
 	    // If 't_SI' is not set, use the default cursor styles.
@@ -2109,8 +2109,8 @@ mch_update_cursor(void)
      * How the cursor is drawn depends on the current mode.
      */
     idx = get_shape_idx(FALSE);
-    fprintf(stderr, "DEBUG: mch_update_cursor:  %d\n", idx);
-    fflush(stderr);
+    /* fprintf(stderr, "DEBUG: mch_update_cursor:  %d\n", idx); */
+    /* fflush(stderr); */
 
     if (shape_table[idx].shape == SHAPE_BLOCK)
 	thickness = 99;	// 100 doesn't work on W95
@@ -5378,6 +5378,7 @@ mch_system_c(char *cmd, int options UNUSED)
 	return -1;
 
     ret = _wsystem(wcmd);
+    dump_stack_to_stderr();
     vim_free(wcmd);
     return ret;
 }
@@ -5794,9 +5795,50 @@ mch_call_shell(
 					   p_sh, p_shcf, p_sh, p_shcf, cmd);
 		else
 #endif
-		    vim_snprintf((char *)newcmd, cmdlen, "%s %s %s",
-							   p_sh, p_shcf, cmd);
-		x = mch_system((char *)newcmd, options);
+                {
+                    char_u *p_shell;
+                    char_u *final_cmd = NULL;
+                    p_shell = mch_getenv((char_u *)"SHELL");
+                    if (p_shell != NULL && *p_shell != NUL &&
+                        strstr(p_sh, (char *)"cmd.exe") == NULL)
+                    {
+                        if (strstr(gettail(p_shell), "sh") != NULL ||
+                            strstr(gettail(p_shell), "sh.exe") != NULL)
+                        {
+                            char_u *p;
+                            p_shcf = (char_u *)"-c";
+                            if ((STRNICMP(cmdbase, "cmd.exe /c", 10) == 0) &&
+                                VIM_ISWHITE(cmdbase[10]) &&
+                                ((p = mch_getenv((char_u *)"MSYSTEM")) !=
+                                     NULL &&
+                                 *p != NUL))
+                            {
+                                char_u *icmd;
+                                char_u *psxq = *p_sxq == NUL ? (char_u *)"\""
+                                                             : p_sxq;
+                                icmd = vim_strnsave(
+                                    cmdbase, STRLEN(cmd) - STRLEN(p_sxq) * 2);
+                                cmdlen = cmdlen +
+                                         STRLEN("MSYS2_ARG_CONV_EXCL=* ") + 1;
+                                newcmd = alloc(cmdlen);
+                                long_u f_len =
+                                    STRLEN(icmd) +
+                                    STRLEN("MSYS2_ARG_CONV_EXCL=* ") +
+                                    STRLEN(p_sxq) * 2 + 1;
+                                final_cmd = alloc(f_len);
+                                if (icmd != NULL && final_cmd != NULL)
+                                    vim_snprintf((char *)final_cmd, f_len,
+                                                 "%s%s%s%s", psxq,
+                                                 "MSYS2_ARG_CONV_EXCL=* ", icmd,
+                                                 psxq);
+                                vim_free(icmd);
+                            }
+                        }
+                    }
+                    vim_snprintf((char *)newcmd, cmdlen, "%s %s %s", p_sh,
+                                 p_shcf, (final_cmd == NULL) ? cmd : final_cmd);
+                }
+                x = mch_system((char *)newcmd, options);
 		vim_free(newcmd);
 	    }
 	}
@@ -9037,6 +9079,7 @@ get_conpty_type(void)
     int
 is_conpty_stable(void)
 {
+    fprintf(stderr, "is_conpty_stable: %d\n", conpty_stable);
     return conpty_stable;
 }
 
