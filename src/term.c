@@ -4363,8 +4363,8 @@ term_cursor_mode(int forced)
 {
     static int showing_mode = -1;
     char_u *p;
-    fprintf(stderr, "DEBUG: term_cursor_mode: before: %d\n T_CSI=%s\n", State, T_CSI);
-    fflush(stderr);
+    /* fprintf(stderr, "DEBUG: term_cursor_mode: before: %d\n T_CSI=%s\n", State, T_CSI); */
+    /* fflush(stderr); */
 
     // Only do something when redrawing the screen and we can restore the
     // mode.
@@ -4396,8 +4396,8 @@ term_cursor_mode(int forced)
     else if (State & MODE_INSERT)
     {
 
-	fprintf(stderr, "DEBUG: term_cursor_mode:  %d\n T_CSI=%s\n", State, T_CSI);
-	fflush(stderr);
+	/* fprintf(stderr, "DEBUG: term_cursor_mode:  %d\n T_CSI=%s\n", State, T_CSI); */
+	/* fflush(stderr); */
 	if ((forced || showing_mode != MODE_INSERT) && *T_CSI != NUL)
 	{
 	    out_str(T_CSI);	    // Insert mode cursor
