@@ -3111,6 +3111,7 @@ may_invoke_callback(channel_T *channel, ch_part_T part)
 	    if (msg != NULL)
 	    {
 #ifdef FEAT_TERMINAL
+		fprintf(stderr, "DEBUG: may_invoke_callback: \n" );
 		if (buffer->b_term != NULL)
 		    write_to_term(buffer, msg, channel);
 		else

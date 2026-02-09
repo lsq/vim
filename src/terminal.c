@@ -1391,11 +1391,14 @@ write_to_term(buf_T *buffer, char_u *msg, channel_T *channel)
     size_t	len = STRLEN(msg);
     term_T	*term = buffer->b_term;
 
+    dump_stack_to_stderr();
 #ifdef MSWIN
     // Win32: Cannot redirect output of the job, intercept it here and write to
     // the file.
+    fprintf(stderr, "DEBUG: write_to_term: \n" );
     if (term->tl_out_fd != NULL)
     {
+	fprintf(stderr, "DEBUG: write_to_term: term->tl_out_fd\n" );
 	ch_log(channel, "Writing %d bytes to output file", (int)len);
 	fwrite(msg, len, 1, term->tl_out_fd);
 	return;
@@ -1404,6 +1407,7 @@ write_to_term(buf_T *buffer, char_u *msg, channel_T *channel)
 
     if (term->tl_vterm == NULL)
     {
+	fprintf(stderr, "DEBUG: write_to_term: term->tl_vterm: null\n" );
 	ch_log(channel, "NOT writing %d bytes to terminal", (int)len);
 	return;
     }
@@ -1910,6 +1914,9 @@ add_scrollback_line_to_buffer(term_T *term, char_u *text, int len)
     linenr_T	lnum = buf->b_ml.ml_line_count;
 
 #ifdef MSWIN
+    fprintf(stderr, "add_scrollback_line_to_buffer->enc_codepage: %d/ enc_utf8: %d\n", enc_codepage, enc_utf8);
+    fprintf(stderr, "add_scrollback_line_to_buffer-> text: %s\n", text);
+    dump_stack_to_stderr();
     if (!enc_utf8 && enc_codepage > 0)
     {
 	WCHAR   *ret = NULL;
@@ -3954,9 +3961,12 @@ term_line2screenline(
 		char_u	mb[MB_MAXBYTES+1];
 		WCHAR	wc = c;
 
+		
+		fprintf(stderr, "term_line2screenline->encoding Conversion begin.\n");
 		if (WideCharToMultiByte(GetACP(), 0, &wc, 1,
 					       (char*)mb, 2, 0, 0) > 1)
 		{
+		    fprintf(stderr, "term_line2screenline->encoding Conversion end.\n");
 		    ScreenLines[off] = mb[0];
 		    ScreenLines[off + 1] = mb[1];
 		    cell.width = mb_ptr2cells(mb);
@@ -6880,7 +6890,7 @@ f_term_start(typval_T *argvars, typval_T *rettv)
 		    + JO2_TERM_COLS + JO2_TERM_ROWS + JO2_VERTICAL + JO2_CURWIN
 		    + JO2_CWD + JO2_ENV + JO2_EOF_CHARS
 		    + JO2_NORESTORE + JO2_TERM_KILL + JO2_TERM_HIGHLIGHT
-		    + JO2_ANSI_COLORS + JO2_TTY_TYPE + JO2_TERM_API) == FAIL)
+		    + JO2_ANSI_COLORS + JO2_TTY_TYPE + JO2_TERM_API + JO2_TERM_CODEPAGE) == FAIL)
 	return;
 
     buf = term_start(&argvars[0], NULL, &opt, 0);
@@ -7098,6 +7108,7 @@ conpty_term_and_job_init(
 	goto failed;
     }
 
+    fprintf(stderr, "conpty_term_and_job_init->cmd: %s\n", cmd);
     term->tl_arg0_cmd = vim_strsave(cmd);
 
     cmd_wchar = enc_to_utf16(cmd, NULL);
@@ -7128,6 +7139,16 @@ conpty_term_and_job_init(
     if (!CreatePipe(&o_ours, &o_theirs, NULL, 0))
 	goto failed;
 
+    //https://deepwiki.com/search/windowssystem_a0285730-3575-4b5d-bf71-f8b7a069d396
+#ifdef MSWIN
+    fprintf(stderr, "conpty_term_and_job_init->opt->joset2\n");
+    SetConsoleOutputCP(CP_UTF8);
+    if (opt->jo_set2 & JO2_TERM_CODEPAGE)
+    {
+	/* SetConsoleCP(opt->jo_term_codepage); */
+	SetConsoleOutputCP(opt->jo_term_codepage);
+    }
+#endif
     consize.X = term->tl_cols;
     consize.Y = term->tl_rows;
     hr = pCreatePseudoConsole(consize, i_theirs, o_theirs, 0,
@@ -7250,6 +7271,7 @@ conpty_term_and_job_init(
     {
 	char_u *fname = opt->jo_io_name[PART_OUT];
 
+	fprintf(stderr, "conpty_term_and_job_init->output file %s\n", fname);
 	ch_log(channel, "Opening output file %s", fname);
 	term->tl_out_fd = mch_fopen((char *)fname, WRITEBIN);
 	if (term->tl_out_fd == NULL)
@@ -7658,6 +7680,7 @@ term_and_job_init(
 
     has_winpty = dyn_winpty_init(FALSE) != FAIL ? TRUE : FALSE;
     has_conpty = dyn_conpty_init(FALSE) != FAIL ? TRUE : FALSE;
+    dump_stack_to_stderr();
     fprintf(stderr,"term_and_job_init->has_conpty: %d/has_winpty: %d\n", has_conpty, has_winpty);
 
     if (!has_winpty && !has_conpty)

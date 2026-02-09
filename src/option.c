@@ -631,6 +631,7 @@ set_init_default_encoding(void)
 	    else
 		p_tenc = empty_option;
 	}
+        fprintf(stderr, "DEBUG: set_init_default_encoding -> p_tenc : %s\n", p_tenc);
 #endif
 #if defined(MSWIN)
 	// $HOME may have characters in active code page.

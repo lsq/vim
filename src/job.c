@@ -548,6 +548,18 @@ get_job_options(typval_T *tv, jobopt_T *opt, int supported, int supported2)
 		}
 		opt->jo_tty_type = p[0];
 	    }
+	    else if (STRCMP(hi->hi_key, "term_codepage") == 0)
+	    {
+		if (!(supported2 & JO2_TERM_CODEPAGE))
+		    break;
+		opt->jo_set2 |= JO2_TERM_CODEPAGE;
+		opt->jo_term_codepage = tv_get_number(item);
+		if (opt->jo_term_codepage <= 0)
+		{
+		    semsg(_(e_invalid_value_for_argument_str), "term_codepage");
+		    return FAIL;
+		}
+	    }
 # if defined(FEAT_GUI) || defined(FEAT_TERMGUICOLORS)
 	    else if (STRCMP(hi->hi_key, "ansi_colors") == 0)
 	    {

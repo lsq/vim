@@ -2787,6 +2787,7 @@ struct channel_S {
 #define JO2_BUFNR	    0x20000	// "bufnr"
 #define JO2_TERM_API	    0x40000	// "term_api"
 #define JO2_TERM_HIGHLIGHT  0x80000	// "highlight"
+#define JO2_TERM_CODEPAGE   0x100000	// "codepage"
 
 #define JO_MODE_ALL	(JO_MODE + JO_IN_MODE + JO_OUT_MODE + JO_ERR_MODE)
 #define JO_CB_ALL \
@@ -2864,6 +2865,7 @@ typedef struct
     int		jo_tty_type;	    // first character of "tty_type"
     char_u	jo_term_api_buf[NUMBUFLEN];
     char_u	*jo_term_api;
+    int		jo_term_codepage;
 #endif
 } jobopt_T;
 

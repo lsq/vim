@@ -5378,7 +5378,7 @@ mch_system_c(char *cmd, int options UNUSED)
 	return -1;
 
     ret = _wsystem(wcmd);
-    dump_stack_to_stderr();
+    /* dump_stack_to_stderr(); */
     vim_free(wcmd);
     return ret;
 }
