@@ -736,6 +736,7 @@ codepage_invalid:
 #if defined(HAVE_BIND_TEXTDOMAIN_CODESET) && defined(FEAT_GETTEXT)
     // GNU gettext 0.10.37 supports this feature: set the codeset used for
     // translated messages independently from the current locale.
+   SetConsoleOutputCP(CP_UTF8);
     (void)bind_textdomain_codeset(VIMPACKAGE,
 					  enc_utf8 ? "utf-8" : (char *)p_enc);
 #endif

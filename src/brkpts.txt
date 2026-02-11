@@ -1,0 +1,16 @@
+break term_start
+break terminal.c:743
+break terminal.c:7677
+break channel.c:79
+break channel.c:4949
+break channel.c:3104
+break terminal.c:1398
+break terminal.c:1289
+break terminal.c:1911
+break terminal.c:2024
+break channel.c:4917
+break normal.c:767
+break getchar.c:2286
+break getchar.c:1951
+break getchar.c:3898
+break os_win32.c:2169

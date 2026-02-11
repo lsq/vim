@@ -1038,6 +1038,7 @@ EXTERN long	p_twsl;		// 'termwinscroll'
 #endif
 #if defined(MSWIN) && defined(FEAT_TERMINAL)
 EXTERN char_u	*p_twt;		// 'termwintype'
+EXTERN char_u	*p_tcp;		// 'termcodepage'
 #endif
 EXTERN int	p_terse;	// 'terse'
 EXTERN int	p_ta;		// 'textauto'

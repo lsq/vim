@@ -2639,6 +2639,15 @@ static struct vimoption options[] =
 			    (char_u *)NULL, PV_NONE, NULL, NULL,
 #endif
 			    {(char_u *)FALSE, (char_u *)0L} SCTX_INIT},
+    {"termcodepage", "tcp", P_STRING|P_VI_DEF,
+#if defined(MSWIN) && defined(FEAT_TERMINAL)
+    (char_u *)&p_tcp, PV_NONE, did_set_termcodepage, expand_set_encoding,
+    {(char_u *)"", (char_u *)0L}
+#else
+    (char_u *)NULL, PV_NONE, NULL, NULL,
+    {(char_u *)0L, (char_u *)0L}
+#endif
+    SCTX_INIT},
     {"termencoding", "tenc", P_STRING|P_VI_DEF|P_RCLR,
 			    (char_u *)&p_tenc, PV_NONE, did_set_encoding, expand_set_encoding,
 			    {(char_u *)"", (char_u *)0L}
