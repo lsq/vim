@@ -1914,10 +1914,11 @@ add_scrollback_line_to_buffer(term_T *term, char_u *text, int len)
     linenr_T	lnum = buf->b_ml.ml_line_count;
 
 #ifdef MSWIN
-    fprintf(stderr, "add_scrollback_line_to_buffer->enc_codepage: %d/ enc_utf8: %d\n", enc_codepage, enc_utf8);
-    fprintf(stderr, "add_scrollback_line_to_buffer-> text: %s\n", text);
+    fprintf(stderr, "add_scrollback_line_to_buffer->enc_codepage: %d/ enc_utf8: %d\n", enc_codepage, enc_utf8); fprintf(stderr, "add_scrollback_line_to_buffer-> text: %s\n", text);
+    int termcodepage = encname2codepage(p_tcp);
     dump_stack_to_stderr();
-    if (!enc_utf8 && enc_codepage > 0)
+
+    if ((!enc_utf8 && enc_codepage > 0) || (enc_utf8 && termcodepage> 0))
     {
 	WCHAR   *ret = NULL;
 	int	length = 0;
@@ -1926,7 +1927,7 @@ add_scrollback_line_to_buffer(term_T *term, char_u *text, int len)
 							   &ret, &length);
 	if (ret != NULL)
 	{
-	    WideCharToMultiByte_alloc(enc_codepage, 0,
+	    WideCharToMultiByte_alloc(enc_codepage? enc_codepage: termcodepage, 0,
 				      ret, length, (char **)&text, &len, 0, 0);
 	    vim_free(ret);
 	    ml_append_buf(term->tl_buffer, lnum, text, len, FALSE);
@@ -7140,9 +7141,10 @@ conpty_term_and_job_init(
 	goto failed;
 
     //https://deepwiki.com/search/windowssystem_a0285730-3575-4b5d-bf71-f8b7a069d396
+    //https://deepwiki.com/search/terminal-windowswinptyconpty_f621b241-364d-40af-ba89-3ebbd29d0740
 #ifdef MSWIN
     fprintf(stderr, "conpty_term_and_job_init->opt->joset2\n");
-    SetConsoleOutputCP(CP_UTF8);
+    /* SetConsoleOutputCP(CP_UTF8); */
     if (opt->jo_set2 & JO2_TERM_CODEPAGE)
     {
 	/* SetConsoleCP(opt->jo_term_codepage); */

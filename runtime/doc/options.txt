@@ -9122,6 +9122,22 @@ A jump table for the options with a short description can be found at |Q_op|.
 	of Windows 10.  winpty support needs to be installed.  If neither is
 	supported then you cannot open a terminal window.
 
+						*'termcodepage'* *'tcp'*
+'termcodepage' 'tcp'	string  (default "")
+			global
+			{only available when compiled with the |terminal|
+			feature on MS-Windows}
+	If a command output utf-8 encoding data(not use SetConsoleOutputCP),
+	the output will be tried as ANSI encoding data.
+	Because of windows ConPTY always the child process output ANSI coding
+	data, and use ANSI encode convert to utf-8.
+	Convert the virtual console (pty) outputting from twice encoding utf-8
+	to utf-8  when opening the terminal window.
+
+	Possible values are:
+	    ""		don't convert.
+	    "ansi"	use ansi encoding(GetACP)
+
 						*'terse'* *'noterse'*
 'terse'			boolean	(default off)
 			global

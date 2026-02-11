@@ -4442,6 +4442,33 @@ expand_set_termwintype(optexpand_T *args, int *numMatches, char_u ***matches)
 	    numMatches,
 	    matches);
 }
+char *
+did_set_termcodepage(optset_T *args UNUSED)
+{
+    char_u	*s, *p;
+
+    // Canonize 'termcodepage' if VIM standard one
+    p = enc_canonize(p_tcp);
+    if (p != NULL)
+    {
+	vim_free(p_tcp);
+	p_tcp= p;
+    }
+    else
+    {
+	// Ensure lower case and '-' for '_'
+	for (s = p_tcp; *s != NUL; s++)
+	{
+	    if (*s == '_')
+		*s = '-';
+	    else
+		*s = TOLOWER_ASC(*s);
+	}
+    }
+
+    return NULL;
+}
+
 # endif
 #endif
 
