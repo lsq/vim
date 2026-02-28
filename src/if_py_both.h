@@ -7160,8 +7160,8 @@ _ConvertToPyLong(varnumber_T n)
     /* On LLP64 systems (e.g., Windows), long=4, varnumber_T=8 */
     // fprintf(stderr, "DEBUG: Converting %lld via PyLong_FromLongLong\n", (long long)n);
     // fflush(stderr);
-    return PyLong_FromLongLong((long long)n);
-#else
+    // return PyLong_FromLongLong((long long)n);
+// #else
     /* LP64 (Unix) or same size: safe to cast to long */
     // fprintf(stderr, "DEBUG: Converting %ld via PyLong_FromLong\n", (long)n);
     // fflush(stderr);
