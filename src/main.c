@@ -100,10 +100,10 @@ main
 #  endif
 (int argc, char **argv)
 {
-    fprintf(stderr, "PID: %ld\n", (long)getpid());
-    fprintf(stderr, "Press Enter to continue...\n");
+    /* fprintf(stderr, "PID: %ld\n", (long)getpid()); */
+    /* fprintf(stderr, "Press Enter to continue...\n"); */
     /* dump_backtrace(); */
-    getchar();
+    /* getchar(); */
 #  if defined(STARTUPTIME) || defined(CLEAN_RUNTIMEPATH)
     int		i;
 #  endif
