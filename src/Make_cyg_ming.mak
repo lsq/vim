@@ -279,8 +279,13 @@ DYNAMIC_PERL=yes
 #PERLLIB=/home/ron/ActivePerl/lib
 # on NT, it's here:
 PERLEXE=$(PERL)/bin/perl
-PERLLIB=$(PERL)/lib
-PERLLIBS=$(PERLLIB)/Core
+PERLLIB=$(PERL)/lib/perl5/core_perl
+PERLLIBS=$(PERLLIB)/CORE
+# 打印这些变量的值
+$(info PERL = [$(PERL)])
+$(info PERLEXE = [$(PERLEXE)])
+$(info PERLLIB = [$(PERLLIB)])
+$(info PERLLIBS = [$(PERLLIBS)])
  ifeq ($(UNDER_CYGWIN),yes)
 PERLTYPEMAP:=$(shell cygpath -m $(PERLLIB)/ExtUtils/typemap)
 XSUBPPTRY:=$(shell cygpath -m $(PERLLIB)/ExtUtils/xsubpp)
@@ -572,6 +577,10 @@ DEFINES += -DGETTEXT_DYNAMIC -DGETTEXT_DLL=\"$(GETTEXT_DYNAMIC)\"
 endif
 
 ifdef PERL
+PERL_CFLAGS = $(shell perl -MExtUtils::Embed -e ccopts)
+PERL_LDFLAGS = $(shell perl -MExtUtils::Embed -e ldopts)
+$(info PERL_CFLAGS = [$(PERL_CFLAGS)])
+$(info PERL_LFLAGS = [$(PERL_LFLAGS)])
 CFLAGS += -I$(PERLLIBS) -DFEAT_PERL -DPERL_IMPLICIT_CONTEXT -DPERL_IMPLICIT_SYS
  ifeq (yes, $(DYNAMIC_PERL))
 CFLAGS += -DDYNAMIC_PERL -DDYNAMIC_PERL_DLL=\"perl$(PERL_VER).dll\"
@@ -751,7 +760,8 @@ CFLAGS += -DFEAT_XPM_W32 -I $(XPM)/include -I $(XPM)/include/X11 -I $(XPM)/../in
 endif
 
 ifeq ($(DEBUG),yes)
-CFLAGS += -g -fstack-check
+CFLAGS += -g -O0 -fno-omit-frame-pointer -fstack-check
+# LFLAGS += -lbacktrace
 DEBUG_SUFFIX=d
 else
  ifeq ($(OPTIMIZE), SIZE)
@@ -916,6 +926,23 @@ OBJ = \
 	$(OUTDIR)/winclip.o \
 	$(OUTDIR)/window.o
 
+ifeq ($(DEBUG),yes)
+LIB += -Lcpptrace/lib -lcpptrace
+OBJ += $(OUTDIR)/cpptrace_win.o
+DEBUG_CTRACE_SRC = cpptrace_win.c
+# LIB += -ldwarfstack
+# OBJ += $(OUTDIR)/dwarfstack_win.o
+DEBUG_STACKTRACE_SRC = dwarfstack_win.c
+#
+# LIB += -ldbghelp
+# OBJ += $(OUTDIR)/stacktrace_win.o
+# DEBUG_STACKTRACE_SRC = stacktrace_win.c
+
+# LIB += -lbacktrace
+# OBJ += $(OUTDIR)/backtrace_util.o
+DEBUG_BACKTRACE_INL = backtrace_util.h
+DEBUG_BACKTRACE_SRC = backtrace_util.c
+endif
 ifeq ($(VIMDLL),yes)
 OBJ += $(OUTDIR)/os_w32dll.o $(OUTDIR)/vimresd.o
 EXEOBJC = $(OUTDIR)/os_w32exec.o $(OUTDIR)/vimresc.o
@@ -1142,7 +1169,8 @@ endif
 
 # To reduce the file size
 ifeq (yes, $(USE_GC_SECTIONS))
-CFLAGS += -ffunction-sections -fno-asynchronous-unwind-tables
+# CFLAGS += -ffunction-sections -fno-asynchronous-unwind-tables
+CFLAGS += -ffunction-sections -fasynchronous-unwind-tables -fexceptions
 CXXFLAGS += -fasynchronous-unwind-tables
 LFLAGS += -Wl,--gc-sections
  ifeq (yes, $(VIMDLL))
@@ -1193,7 +1221,7 @@ EXEENTRYG = -Wl,--entry=_wWinMainCRTStartup@0
  endif
 
 $(TARGET): $(OBJ)
-	$(LINK) $(CFLAGS) $(LFLAGS) -o $@ $(OBJ) $(LIB) -lole32 -luuid -lgdi32 $(LUA_LIB) $(MZSCHEME_LIBDIR) $(MZSCHEME_LIB) $(PYTHONLIB) $(PYTHON3LIB) $(RUBYLIB) $(SODIUMLIB)
+	$(LINK) $(CFLAGS) $(LFLAGS) -o $@ $(OBJ) $(LIB) -lole32 -luuid -lgdi32 $(EXTRA_LIBS) $(LUA_LIB) $(MZSCHEME_LIBDIR) $(MZSCHEME_LIB) $(PYTHONLIB) $(PYTHON3LIB) $(RUBYLIB) $(SODIUMLIB)
 
 $(GVIMEXE): $(EXEOBJG) $(VIMDLLBASE).dll
 	$(CC) -L. $(EXELFLAGS) -mwindows -o $@ $(EXEOBJG) -l$(VIMDLLBASE) $(EXEENTRYG)
@@ -1202,7 +1230,7 @@ $(VIMEXE): $(EXEOBJC) $(VIMDLLBASE).dll
 	$(CC) -L. $(EXELFLAGS) -o $@ $(EXEOBJC) -l$(VIMDLLBASE) $(EXEENTRYC)
 else
 $(TARGET): $(OBJ)
-	$(LINK) $(CFLAGS) $(LFLAGS) -o $@ $(OBJ) $(LIB) -lole32 -luuid $(LUA_LIB) $(MZSCHEME_LIBDIR) $(MZSCHEME_LIB) $(PYTHONLIB) $(PYTHON3LIB) $(RUBYLIB) $(SODIUMLIB)
+	$(LINK) $(CFLAGS) $(LFLAGS) -o $@ $(OBJ) $(LIB) -lole32 -luuid $(EXTRA_LIBS) $(LUA_LIB) $(MZSCHEME_LIBDIR) $(MZSCHEME_LIB) $(PYTHONLIB) $(PYTHON3LIB) $(RUBYLIB) $(SODIUMLIB)
 endif
 
 upx: exes
@@ -1430,6 +1458,18 @@ $(OUTDIR)/terminal.o:	terminal.c $(INCL) $(TERM_DEPS)
 
 $(OUTDIR)/pathdef.o:	$(PATHDEF_SRC) $(INCL)
 	$(CC) -c $(CFLAGS) $(PATHDEF_SRC) -o $@
+
+$(OUTDIR)/backtrace_util.o:	$(DEBUG_BACKTRACE_SRC) $(INCL) $(DEBUG_BACKTRACE_INL)
+	$(CC) -c $(CFLAGS) $(DEBUG_BACKTRACE_SRC) -o $@
+
+$(OUTDIR)/stacktrace_win.o:	$(DEBUG_STACKTRACE_SRC) $(INCL)
+	$(CC) -c $(CFLAGS) $(DEBUG_STACKTRACE_SRC) -o $@
+
+$(OUTDIR)/dwarfstack_win.o:	$(DEBUG_STACKTRACE_SRC) $(INCL)
+	$(CC) -c $(CFLAGS) $(DEBUG_STACKTRACE_SRC) -o $@
+
+$(OUTDIR)/cpptrace_win.o:	$(DEBUG_CTRACE_SRC) $(INCL)
+	$(CC) -c $(CFLAGS) -Icpptrace/include $(DEBUG_CTRACE_SRC) -o $@
 
 
 CCCTERM = $(CC) -c $(CFLAGS) -Ilibvterm/include -DINLINE="" \
