@@ -457,6 +457,45 @@ theend:
 }
 #endif
 
+#if defined(MSWIN)
+/*
+ * If running inside an MSYS2 / Git-Bash / Cygwin-like shell (detected via
+ * $MSYSTEM or a POSIX-style $SHELL), switch 'runtimepath' and 'packpath'
+ * to the Unix-style "~/.vim" layout instead of "~/vimfiles".
+ */
+    static void
+set_init_msys_rtp(void)
+{
+    int		opt_idx;
+    char_u	*msystem = mch_getenv("MSYSTEM");
+    char_u	*shell = mch_getenv("SHELL");
+    int		is_unix_shell = FALSE;
+
+    if (msystem != NULL && *msystem != NUL)
+	is_unix_shell = TRUE;
+    else if (shell != NULL &&
+	    (vim_strchr(shell, '/') != NULL ||
+	     vim_strchr(shell, '\\') != NULL ||
+	     strstr((char *)shell, "bash") != NULL ||
+	     strstr((char *)shell, "zsh")  != NULL ||
+	     strstr((char *)shell, "sh")  != NULL))
+	is_unix_shell = TRUE;
+
+    if (!is_unix_shell)
+	return;
+
+    if ((opt_idx = findoption((char_u *)"runtimepath")) < 0)
+	return;
+    options[opt_idx].def_val[VI_DEFAULT] = (char_u *)MSYS_RUNTIMEPATH;
+    p_rtp = (char_u *)MSYS_RUNTIMEPATH;
+
+    if ((opt_idx = findoption((char_u *)"packpath")) < 0)
+	return;
+    options[opt_idx].def_val[VI_DEFAULT] = (char_u *)MSYS_RUNTIMEPATH;
+    p_pp = (char_u *)MSYS_RUNTIMEPATH;
+}
+#endif
+
 /*
  * Expand environment variables and things like "~" for the defaults.
  * If option_expand() returns non-NULL the variable is expanded.  This can
@@ -740,6 +779,10 @@ set_init_1(int clean_arg)
 #ifdef UNIX
     set_init_xdg_rtp();
     set_init_restricted_mode();
+#endif
+
+#if defined(MSWIN)
+    set_init_msys_rtp();
 #endif
 
 #ifdef CLEAN_RUNTIMEPATH

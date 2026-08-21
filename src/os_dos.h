@@ -106,6 +106,10 @@
 
 #define DFLT_ERRORFILE		"errors.err"
 #define DFLT_RUNTIMEPATH	"$HOME/vimfiles,$VIM/vimfiles,$VIMRUNTIME,$HOME/vimfiles/after,$VIM/vimfiles/after"
+#ifndef MSYS_RUNTIMEPATH
+# define MSYS_RUNTIMEPATH \
+    "$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after"
+#endif
 #define CLEAN_RUNTIMEPATH	"$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after"
 
 #define CASE_INSENSITIVE_FILENAME   // ignore case when comparing file names

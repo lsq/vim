@@ -36,6 +36,11 @@ Will find "c:\user\piet\_vimrc".
 Note: This would only be needed when the computer is used by several people.
 Otherwise it's simpler to keep your _vimrc file in the default place.
 
+If Vim detects it is running inside an MSYS2 or Git-Bash-like shell
+(the $MSYSTEM environment variable is set, or $SHELL looks like a Unix
+shell), it will use "~/.vim" instead of "~/vimfiles" as the default
+'runtimepath' entry, matching Unix conventions.
+
 If you move the executable to another location, you also need to set the $VIM
 environment variable.  The runtime files will be found in "$VIM/vim{version}".
 Example: >
