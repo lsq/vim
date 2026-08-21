@@ -3536,6 +3536,7 @@ may_invoke_callback(channel_T *channel, ch_part_T part)
 	    if (msg != NULL)
 	    {
 #ifdef FEAT_TERMINAL
+		fprintf(stderr, "DEBUG: may_invoke_callback: \n" );
 		if (buffer->b_term != NULL)
 		{
 		    // PART_ERR data arrives from a pipe without PTY ONLCR

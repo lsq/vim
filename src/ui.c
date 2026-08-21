@@ -1132,7 +1132,7 @@ ui_cursor_shape_forced(int forced)
 # endif
 	term_cursor_mode(forced);
 
-dump_stack_to_stderr();
+/* dump_stack_to_stderr(); */
 /* dump_backtrace(); */
 # ifdef MCH_CURSOR_SHAPE
     mch_update_cursor();
